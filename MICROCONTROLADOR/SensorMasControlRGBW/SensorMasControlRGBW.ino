@@ -46,10 +46,10 @@ int S3 = 34;
 int OEPin = 39;
 int outPin = 40;
 
-int pinR = 10;
-int pinG = 13;
-int pinB = 14;
-int pinW = 9; 
+  int pinR = 23; ///
+  int pinG = 24;
+  int pinB = 25;
+  int pinW = 26;
 
 //Los pines a continuacion deben evaluarse
 int ledRojo = 5;
