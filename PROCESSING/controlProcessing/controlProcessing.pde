@@ -7,7 +7,7 @@ import processing.serial.*;
 String portname= "/dev/ttyUSB0";
 Serial port;
 PImage img, img2, img3;
-int valor;//Valor de la temperatura
+int valor;//Valor de la variable a recibir
 
 void setup() {
   size(1350, 800);
@@ -52,7 +52,7 @@ image(img3, 600, 40);
   // send sync character
   // send the desired value
  port.write('R');
- port.write(sV1.p);
+ port.write((sV1.p)*70/100); //Se acondiciona para operacion al 70%
  port.write('G');
   port.write(sV2.p);
   port.write('B');
@@ -76,16 +76,17 @@ image(img3, 600, 40);
   }
     popMatrix();
     
-  //Recibir datos por puerto serial de una variable (temperatura) 
+  //Recibir datos por puerto serial de una variable  
   if(port.available() > 0) // si hay algún dato disponible en el puerto
    {
      valor=port.read();//Lee el dato y lo almacena en la variable "valor"
    }
-   //Visualizamos la temperatura con un texto
+   //Visualizamos datos con un texto
+   fill(255);
    text("Lectura de datos",490,580);
-   text("Temperatura =",490,600);
+   text("Long. de onda =",490,600);
    text(valor, 620, 600);
-   text("ºC",647,600);
+   text(" nanometros",647,600);
 }
 
 
