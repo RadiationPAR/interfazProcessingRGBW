@@ -7,6 +7,8 @@
 import controlP5.*;//Graficos interactivos
 import processing.serial.*;//Lectura y escritura serial
 
+import java.util.Map;//para crear diccionarios
+
 /*Variables previstas para graficos interactivos*/
 ControlP5 interfaz;
 Slider2D sliderOnda;
@@ -59,9 +61,8 @@ void draw() {
   dibujarImagenes();
   renderizarSliders();  
   graficarVisualizadorOnda();
-  escribePWMSerial();
-  leerDatosSerial();
   refrezcaTextos();
+  rxtxSerial();
 }
 
 
@@ -128,18 +129,6 @@ void renderizarSliders() {
   sliderV4.render();
 }
 
-void escribePWMSerial() {
-  // Escribe por puerto Serial caracteres ascci (0-255)
-  puertoSerial.write('R');
-  puertoSerial.write((sliderV1.p)*70/100); //Se acondiciona para operacion al 70%
-  puertoSerial.write('G');
-  puertoSerial.write(sliderV2.p);
-  puertoSerial.write('B');
-  puertoSerial.write(sliderV3.p);
-  puertoSerial.write('W');
-  puertoSerial.write(sliderV4.p);
-}
-
 void graficarVisualizadorOnda() {
   //Grafica visualizador de onda
   pushMatrix();
@@ -157,19 +146,6 @@ void graficarVisualizadorOnda() {
     line((i-1), y0, i, y1);
   }
   popMatrix();//https://processing.org/reference/popMatrix_.html
-}
-
-void leerDatosSerial() {
-  String get = null;
-  int lf = 10;//caracter en ascii breakline o salto de linea
-  //Recibir datos por puerto serial de una variable  
-  while (puertoSerial.available() > 0) {
-    get = puertoSerial.readStringUntil(lf);
-    if (get != null) {
-      print(get);  // Prints String
-    }
-  }
-  puertoSerial.clear();
 }
 
 void refrezcaTextos() {
@@ -200,10 +176,72 @@ void refrezcaTextos() {
   text(creditos, 820, 520, 400, 400);
 }
 
+void escribePWMSerial() {
+  // Escribe por puerto Serial caracteres ascci (0-255)
+  puertoSerial.write('R');
+  puertoSerial.write((sliderV1.p)*70/100); //Se acondiciona para operacion al 70%
+  puertoSerial.write('G');
+  puertoSerial.write(sliderV2.p);
+  puertoSerial.write('B');
+  puertoSerial.write(sliderV3.p);
+  puertoSerial.write('W');
+  puertoSerial.write(sliderV4.p);
+}
 
+float tiempoRefrescoDato = 200;//mS
+int FPS = 24;//tiempoFPS=1/fps;
+int bucles = (int)Math.ceil(tiempoRefrescoDato/1000*FPS);//round up/ redondeo hacia arriba
+void rxtxSerial(){
+  //Se envian y reciben los datos a cierta velocidad
+  int contadorBucles = 0;//Se inicia el contador en 0
+  while(contadorBucles<bucles){
+    escribePWMSerial();
+    leerDatosSerial();
+    contadorBucles++;
+  }
+  contadorBucles = 0;
+}
+
+void leerDatosSerial() {
+  String get = null;
+  int lf = 10;//caracter en ascii breakline o salto de linea
+  //Recibir datos por puerto serial de una variable  
+  while (puertoSerial.available() > 0) {
+    get = puertoSerial.readStringUntil(lf);
+    if (get != null) {
+      //print(get);  // Prints String
+      HashMap<String,String> valores = conversionGET(get);
+      R = parseInt(valores.get("r"));
+      G = parseInt(valores.get("g"));
+      B = parseInt(valores.get("b"));
+      sliderOnda.setColorValue(color(R,G,B));
+      sliderOnda.setColorBackground(color(R, G, B));
+    }
+  }
+  puertoSerial.clear();
+}
 
 void keyPressed() {//Cuando se pulse una tecla
   if (key=='s' || key=='S' || key=='q' || key=='Q') {
     exit();//Salimos del programa
   }
+}
+
+HashMap<String,String> conversionGET(String get) {
+  HashMap<String,String> valores = new HashMap<String,String>();
+  String[] pseudoValores = get.split("&");
+  //valores predeterminados
+  valores.put("r","0");
+  valores.put("g","0");
+  valores.put("b","0");
+  for(int i=0; i<pseudoValores.length; i++){
+    String[] clave_valor = pseudoValores[i].split("=");
+    if (clave_valor.length != 2){
+      return valores;
+    }
+    String clave = clave_valor[0];
+    String valor = clave_valor[1];
+    valores.put(clave,valor);
+  }
+  return valores;
 }
