@@ -22,11 +22,10 @@ int W; //Brillo
 /* Tipo de datos para almacenar imágenes .gif, .jpg, .tga, .png */
 PImage img, img2, img3;
 
-
 void setup() {
   size(1350, 800); //Define un tamaño para la interfaz
   img = loadImage("imagenes/tux.png");
-  img2 = loadImage("imagenes/cromatico.jpg");
+  img2 = loadImage("imagenes/cromatico.png");
   img3 = loadImage("imagenes/espectrovisible.png");
 
   // Comprueba disponibilidad de puerto serial en la maquina  
@@ -50,20 +49,86 @@ void setup() {
     .setValue(40, 50); // Asigna unos valores iniciales para amplitud y frecuencia
   //.disableCrosshair();
   smooth();//Dibuja todas las geometrias en el lienzo de la interfaz grafica
+  //frameRate(24); //(fps) Veces por segundo, tasa de refresco de la pantalla/lienzo
 }
 
 /* Funcion para incrustar imagenes, dibujar sliders y visualizador de onda.*/
+/* Esta función es un bucle que dibuja en el lienzo, por eso se llama draw.*/
+/* Se ejecuta el numero de veces de la tasa de refresco frame rate*/
 void draw() {
+  dibujarImagenes();
+  renderizarSliders();  
+  graficarVisualizadorOnda();
+  escribePWMSerial();
+  leerDatosSerial();
+  refrezcaTextos();
+}
+
+
+/* Clase Slider */
+class sliderV {
+  //atributos del objeto
+  int x, y, w, h, p;//h=alto,p=rango de 0 a 255 (altura)
+  color col;
+  boolean slide;
+  String texto;
+  //constructor del objeto
+  public sliderV (int _x, int _y, int _w, int _h, color _col) {
+    x = _x;//Posicion X
+    y = _y;//Posicion y
+    w = _w;//Ancho
+    h = _h;//Alto
+    p = 60;//Valor (0-255) del PWM inicial (porcentaje)
+    col = _col;//Color
+    slide = true;
+    texto = "";
+  }
+  //Función que renderiza el objeto
+  private void render() {
+    noStroke();//Sin contorno, linea de afuera del rectángulo
+    fill(col);//color de relleno
+    rect(x-1, y-4, w, h+10);
+    fill(100,100,100,100);//Rojo,Verde,Azul,Alfa
+    rect(x, h-p+y-5, w-2, 13);
+    this.escribirEtiquetas();
+    this.mouseOver();
+  }
+  private void escribirEtiquetas() {
+    fill(255);
+    textSize(11);
+    int porcentaje = p * 100 / 255;//Porcentaje
+    texto = str(porcentaje) + " %";//Texto porcentaje barras color(sliders)
+    text(texto, x+2, h-p+y+6);
+  }
+  private void mouseOver() {
+    if (slide==true && mousePressed==true && mouseX < x+w && mouseX > x) {
+      if ((mouseY<=y+h+150) && (mouseY>=y-150)) {
+        p = h-(mouseY-y);
+        if (p<0) {
+          p=0;
+        } else if (p>h) {
+          p=h;
+        }
+      }
+    }
+  }
+}
+
+void dibujarImagenes() {
   background(0); //Color de fondo 0=negro
   image(img, 1200, 500);// img ,posicion x, posicion y
   image(img2, 100, 400);
   image(img3, 600, 40);
+}
 
+void renderizarSliders() {
   sliderV1.render();//Renderiza slider
   sliderV2.render();
   sliderV3.render();
   sliderV4.render();
+}
 
+void escribePWMSerial() {
   // Escribe por puerto Serial caracteres ascci (0-255)
   puertoSerial.write('R');
   puertoSerial.write((sliderV1.p)*70/100); //Se acondiciona para operacion al 70%
@@ -73,31 +138,44 @@ void draw() {
   puertoSerial.write(sliderV3.p);
   puertoSerial.write('W');
   puertoSerial.write(sliderV4.p);
+}
 
+void graficarVisualizadorOnda() {
   //Grafica visualizador de onda
   pushMatrix();
   translate(820, 340);//Define posicion
-  noStroke();
+  noStroke();//Deshabilita el trazo (contorno). Si se usa junto con noFill nada es dibujado en pantalla
   fill(50);//Color de llenado
   rect(0, -100, 500, 200);
-  strokeWeight(1);
+  strokeWeight(1);//Ancho del trazo (líneas en los objetos)
   line(0, 0, 200, 0);
-  stroke(225);
+  stroke(225);//Color del trazo
 
   for (int i=1; i<500; i++) {//Define tamaño max de la onda comprendida entre -PI,PI
     float y0 = cos(map(i-1, 0, sliderOnda.getArrayValue()[0], -PI, PI)) * sliderOnda.getArrayValue()[1]; 
     float y1 = cos(map(i, 0, sliderOnda.getArrayValue()[0], -PI, PI)) * sliderOnda.getArrayValue()[1];
     line((i-1), y0, i, y1);
   }
-  popMatrix();
+  popMatrix();//https://processing.org/reference/popMatrix_.html
+}
 
+void leerDatosSerial() {
+  String get = null;
+  int lf = 10;//caracter en ascii breakline o salto de linea
   //Recibir datos por puerto serial de una variable  
-  // if(puertoSerial.available() > 0) // si hay algún dato disponible en el puerto
-  // {
-  // valor=puertoSerial.read();//Lee el dato y lo almacena en la variable "valor"
-  // }
+  while (puertoSerial.available() > 0) {
+    get = puertoSerial.readStringUntil(lf);
+    if (get != null) {
+      print(get);  // Prints String
+    }
+  }
+  puertoSerial.clear();
+}
+
+void refrezcaTextos() {
   //Visualizamos datos con un texto
-  fill(255);
+  textSize(16);//Tamaño
+  fill(255);//Color del texto
   text("LECTURA DE DATOS", 490, 480);
   text("Control rojo   =", 490, 500);
   text(sliderV1.texto, 620, 500);
@@ -114,62 +192,18 @@ void draw() {
   text(G, 540, 640);
   text("B =", 490, 660);
   text(B, 540, 660);
+  textSize(25);//Tamaño
+  text("COMBINATORIAS RGBW", 100, 70); 
+  textSize(16);
+  String creditos = "Este obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional";
+  fill(255);
+  text(creditos, 820, 520, 400, 400);
 }
 
 
-/* Clase Slider */
-class sliderV {
-  int x, y, w, h, p;//h=alto,p=rango,porcentaje
-  color col;
-  boolean slide;
-  String texto;
-
-  sliderV (int _x, int _y, int _w, int _h, color _col) {
-    x = _x;//Posicion X
-    y = _y;//Posicion y
-    w = _w;//Ancho
-    h = _h;//Alto
-    p = 60;//Valor (0-255) del PWM inicial (porcentaje)
-    col = _col;//Color
-    slide = true;
-    texto = "";
-  }
-
-void render() {
-    fill(col);
-    rect(x-1, y-4, w, h+10);
-    noStroke();
-    fill(100,100,100,100);//Rojo,Verde,Azul,Alfa
-    rect(x, h-p+y-5, w-2, 13);
-    fill(255);
-    textSize(11);
-    int porcentaje = p * 100 / 255;
-    texto = str(porcentaje) + " %";
-    text(texto, x+2, h-p+y+6);
-
-    if (slide==true && mousePressed==true && mouseX < x+w && mouseX > x) {
-      if ((mouseY<=y+h+150) && (mouseY>=y-150)) {
-        p = h-(mouseY-y);
-        if (p<0) {
-          p=0;
-        } else if (p>h) {
-          p=h;
-        }
-      }
-    }
-    textSize(25);
-    fill(255);
-    text("COMBINATORIAS RGBW", 100, 70); 
-    textSize(16);
-    String creditos = "Este obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional";
-    fill(255);
-    text(creditos, 820, 520, 400, 400);
-  }
-}
 
 void keyPressed() {//Cuando se pulse una tecla
-  if (key=='s' || key=='S')
-  {
+  if (key=='s' || key=='S' || key=='q' || key=='Q') {
     exit();//Salimos del programa
   }
 }
