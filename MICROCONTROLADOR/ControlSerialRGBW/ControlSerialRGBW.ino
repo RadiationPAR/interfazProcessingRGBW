@@ -158,7 +158,7 @@ void enviarDatosSensor() {
   Serial.print("cPulse="+String(sensor.promedio(sensor.cPulse))+"&");
   Serial.print("rPulse="+String(sensor.promedio(sensor.rPulse))+"&");
   Serial.print("gPulse= "+String(sensor.promedio(sensor.gPulse))+"&");
-  Serial.print("bPulse"+String(sensor.promedio(sensor.bPulse))+"&");
+  Serial.print("bPulse="+String(sensor.promedio(sensor.bPulse))+"&");
   Serial.print("r="+String(sensor.promedio(sensor.r))+"&");
   Serial.print("g="+String(sensor.promedio(sensor.g))+"&");
   Serial.print("b="+String(sensor.promedio(sensor.b)));
