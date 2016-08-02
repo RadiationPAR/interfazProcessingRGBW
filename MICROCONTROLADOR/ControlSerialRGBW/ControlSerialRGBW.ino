@@ -97,12 +97,12 @@ void configurarPinesSensor(){
  ***********************************************************************
  */
 void loop() {
-  escribeSerialRGBW2PC();
-  delay(10);
+  leeSerialRGBW2PC();
   serialSensor();
+
 }
 
-void escribeSerialRGBW2PC() {
+void leeSerialRGBW2PC() {
   switch(leerPuerto()){
    case 'R':
     analogWrite(pinR, leerPuerto());
@@ -124,38 +124,55 @@ int leerPuerto() {
   return Serial.read();
 }
 
+const int nMuestras = 10;
 void serialSensor() {
-  leerDatosSensor();
+  for (int i=0; i<nMuestras; i++){
+    leerDatosSensor(i);
+  }
   enviarDatosSensor();
 }
 
 struct SensorColor {
-  int r;
-  int g;
-  int b;
-  int cPulse;
-  int rPulse;
-  int gPulse;
-  int bPulse;
+  int r[nMuestras];
+  int g[nMuestras];
+  int b[nMuestras];
+  int cPulse[nMuestras];
+  int rPulse[nMuestras];
+  int gPulse[nMuestras];
+  int bPulse[nMuestras];
+  float promedio(int arreglo[]){
+    float suma = 0;
+    int muestras = sizeof(arreglo);
+    for (int x = 0; x < muestras; x++){
+      suma = suma + arreglo[x];
+    }
+    Serial.println("suma"+String(suma));
+    suma = suma / muestras;
+    Serial.println("prom"+String(suma));
+    return suma;
+  }
 };
 
 struct SensorColor datosSensor;
 
 void enviarDatosSensor() {
   struct SensorColor sensor = datosSensor;
-  Serial.println("C pulse = "+sensor.cPulse);
-  Serial.println("R pulse = "+sensor.rPulse);
-  Serial.println("G pulse = "+sensor.gPulse);
-  Serial.println("B pulse = "+sensor.bPulse);
+  for (int i = 0; i < nMuestras; i++) {
+    Serial.println(sensor.cPulse[i]);
+  }
+  Serial.println("C pulse = "+String(sensor.promedio(sensor.cPulse)));
+  Serial.println("R pulse = "+String(sensor.promedio(sensor.rPulse)));
+  Serial.println("G pulse = "+String(sensor.promedio(sensor.gPulse)));
+  Serial.println("B pulse = "+String(sensor.promedio(sensor.bPulse)));
   
   Serial.println("");
-  Serial.println("rojo = "+sensor.r);
-  Serial.println("verde = "+sensor.g);
-  Serial.println("azul = "+sensor.b); 
+  Serial.println("rojo = "+String(sensor.promedio(sensor.r)));
+  Serial.println("verde = "+String(sensor.promedio(sensor.g)));
+  Serial.println("azul = "+String(sensor.promedio(sensor.b))); 
   Serial.println(""); 
 }
 
-void leerDatosSensor() {
+void leerDatosSensor(int i) {
   digitalWrite(S2, HIGH);// Se configura para tomar lectura sin filtro
   digitalWrite(S3, LOW);
   int cPulse = pulseIn(outPin, LOW);// realiza la lectura
@@ -221,6 +238,13 @@ void leerDatosSensor() {
     r = 32 * Cb / Cr;
   }  
   
-  datosSensor = {r,g,b,cPulse,rPulse,gPulse,bPulse};
+  
+  datosSensor.r[i] = r;
+  datosSensor.g[i] = g;
+  datosSensor.b[i] = b;
+  datosSensor.cPulse[i] = cPulse;
+  datosSensor.rPulse[i] = rPulse;
+  datosSensor.gPulse[i] = gPulse;
+  datosSensor.bPulse[i] = bPulse;
 }
 

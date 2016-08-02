@@ -111,9 +111,9 @@ void draw() {
   text("R =", 490, 620);
   text(R, 540, 620);
   text("G =", 490, 640);
-  text(R, 540, 640);
+  text(G, 540, 640);
   text("B =", 490, 660);
-  text(R, 540, 660);
+  text(B, 540, 660);
 }
 
 
@@ -135,7 +135,7 @@ class sliderV {
     texto = "";
   }
 
-  void render() {
+void render() {
     fill(col);
     rect(x-1, y-4, w, h+10);
     noStroke();
@@ -167,9 +167,7 @@ class sliderV {
   }
 }
 
-void keyPressed() //Cuando se pulse una tecla
-{
-
+void keyPressed() {//Cuando se pulse una tecla
   if (key=='s' || key=='S')
   {
     exit();//Salimos del programa
