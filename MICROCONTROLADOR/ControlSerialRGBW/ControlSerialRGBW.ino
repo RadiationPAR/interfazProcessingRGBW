@@ -124,7 +124,7 @@ int leerPuerto() {
   return Serial.read();
 }
 
-const int nMuestras = 10;
+const int nMuestras = 200;
 void serialSensor() {
   for (int i=0; i<nMuestras; i++){
     leerDatosSensor(i);
@@ -142,13 +142,10 @@ struct SensorColor {
   int bPulse[nMuestras];
   float promedio(int arreglo[]){
     float suma = 0;
-    int muestras = sizeof(arreglo);
-    for (int x = 0; x < muestras; x++){
-      suma = suma + arreglo[x];
+    for (int x = 0; x < nMuestras; x++){
+      suma += arreglo[x];
     }
-    Serial.println("suma"+String(suma));
-    suma = suma / muestras;
-    Serial.println("prom"+String(suma));
+    suma /= nMuestras;
     return suma;
   }
 };
@@ -157,18 +154,14 @@ struct SensorColor datosSensor;
 
 void enviarDatosSensor() {
   struct SensorColor sensor = datosSensor;
-  for (int i = 0; i < nMuestras; i++) {
-    Serial.println(sensor.cPulse[i]);
-  }
-  Serial.println("C pulse = "+String(sensor.promedio(sensor.cPulse)));
-  Serial.println("R pulse = "+String(sensor.promedio(sensor.rPulse)));
-  Serial.println("G pulse = "+String(sensor.promedio(sensor.gPulse)));
-  Serial.println("B pulse = "+String(sensor.promedio(sensor.bPulse)));
   
-  Serial.println("");
-  Serial.println("rojo = "+String(sensor.promedio(sensor.r)));
-  Serial.println("verde = "+String(sensor.promedio(sensor.g)));
-  Serial.println("azul = "+String(sensor.promedio(sensor.b))); 
+  Serial.print("cPulse="+String(sensor.promedio(sensor.cPulse))+"&");
+  Serial.print("rPulse="+String(sensor.promedio(sensor.rPulse))+"&");
+  Serial.print("gPulse= "+String(sensor.promedio(sensor.gPulse))+"&");
+  Serial.print("bPulse"+String(sensor.promedio(sensor.bPulse))+"&");
+  Serial.print("r="+String(sensor.promedio(sensor.r))+"&");
+  Serial.print("g="+String(sensor.promedio(sensor.g))+"&");
+  Serial.print("b="+String(sensor.promedio(sensor.b)));
   Serial.println(""); 
 }
 
