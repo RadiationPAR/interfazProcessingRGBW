@@ -5,6 +5,11 @@ void setup(){
 void draw(){
   background(0);
   stroke(255);
+  RGBtoHSV(); 
+}
+
+/************FUNCIONES ADICIONALES******************/
+void RGBtoHSV() {
   float R = 255;
   float G = 255;
   float B = 254;
@@ -43,7 +48,6 @@ void draw(){
   trazoAngular(100, 100, anguloRadian, 70);  //posicion x, posicion y, anguloRadian en radianes, magnitud
 }
 
-/************FUNCIONES ADICIONALES******************/
 void trazoAngular(int x, int y, float anguloRadian, float length){
   strokeWeight(3); // Añade un grosor al trazo
   line(x, y, x+cos(anguloRadian)*length, y-sin(anguloRadian)*length); //line(x1, y1, x2, y2)

@@ -68,6 +68,7 @@ void draw() {
   graficarVisualizadorOnda();
   refrezcaTextos();
   rxtxSerial();
+  RGBtoHSV();
 }
 
 
@@ -124,7 +125,7 @@ void dibujarImagenes() {
   background(0); //Color de fondo 0=negro
   image(img, 1200, 500);// img ,posicion x, posicion y
   image(img2, 100, 400);
-  image(img3, 600, 40);
+  image(img3, 550, 80);
 }
 
 void renderizarSliders() {
@@ -175,6 +176,7 @@ void refrezcaTextos() {
   text(B, 540, 660);
   textSize(25);//Tamaño
   text("COMBINATORIAS RGBW", 100, 70); 
+  text("ESPECTRO VISIBLE",800,90);
   textSize(16);
   String creditos = "Este obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional";
   fill(255);
@@ -258,4 +260,49 @@ HashMap<String,String> conversionGET(String get) {
     valores.put(clave,valor);
   }
   return valores;
+}
+
+/************FUNCIONES ADICIONALES******************/
+void RGBtoHSV() {
+  float R = 255;
+  float G = 100;
+  float B = 20;
+  float matiz = 0.0;
+  float Rh, Gh, Bh;
+  Rh = R/255;
+  Gh = G/255;
+  Bh = B/255;
+  
+  float[] valoresRGB = { Rh, Gh, Bh};  // arreglo de datos con punto flotante
+  float colorMax = max(valoresRGB); // Obtenemos el valor maximo del arreglo
+  float colorMin = min(valoresRGB); // Obtenemos el valor maximo del arreglo
+  R = R-0.2;
+  G = G-0.15;
+  B = B-0.05;
+    if(R>G && R>B){
+      //println("R es Mayor");
+      matiz = (Gh-Bh)/(colorMax-colorMin);
+      //println(matiz);
+     } 
+    if(G>R && G>B){
+      //println("G es mayor");
+      matiz = 2.0 + (Bh-Rh)/(colorMax-colorMin);
+     // println(matiz);
+    }
+    if(B>R && B>G){
+      //println("B es Mayor");
+      matiz = 4.0 + (Rh-Gh)/(colorMax-colorMin);
+      
+    }
+  float anguloMatiz = matiz * 60 ; // Convierte a grados
+  //println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
+  
+  float pi=3.141592654;
+  float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
+  trazoAngular(250, 557, anguloRadian, 110);  //posicion x, posicion y, anguloRadian en radianes, magnitud
+}
+
+void trazoAngular(int x, int y, float anguloRadian, float length){
+  strokeWeight(4); // Añade un grosor al trazo
+  line(x, y, x+cos(anguloRadian)*length, y-sin(anguloRadian)*length); //line(x1, y1, x2, y2)
 }
