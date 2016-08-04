@@ -16,6 +16,7 @@ sliderV sliderV1, sliderV2, sliderV3, sliderV4;
 
 /*Definicion de variables para escribir datos PWM al TIVA*/
 Serial puertoSerial;
+int LINE_FEED = 10;// <LF> constant
 int R; //Tono rojo
 int G; //Tono verde
 int B; //Tono azul
@@ -34,7 +35,11 @@ void setup() {
   println("Puerto Serial disponible.");
   println("Dispositivo: "+Serial.list()[0]);
   puertoSerial = new Serial(this, Serial.list()[0], 9600);//9600 es el baudrate o tasa de baudios
-
+  // Setup the serialEvent to be called when we receive complete response
+  // packets from the HRMI device
+  puertoSerial.bufferUntil(LINE_FEED);//caracter en ascii breakline o salto de linea
+ 
+ 
   // Creamos 4 Sliders
   // sliderVx = new sliderV(ubicacion x, ubicacion y, ancho, largo, color);
   sliderV1 = new sliderV(50, 200, 90, 255, #FF0000); 
@@ -176,6 +181,20 @@ void refrezcaTextos() {
   text(creditos, 820, 520, 400, 400);
 }
 
+float tiempoRefrescoDato = 100;//mS
+int FPS = 24;//tiempoFPS=1/fps;
+int bucles = (int)Math.ceil(tiempoRefrescoDato/1000*FPS);//round up/ redondeo hacia arriba
+int contadorBucles = 1;//Se inicia el contador en 1 vez
+void rxtxSerial(){
+  //Se envian y reciben los datos a cierta velocidad
+  if(contadorBucles>=bucles){
+    escribePWMSerial();
+    contadorBucles = 0;
+  } else {
+    contadorBucles++;
+  }
+}
+
 void escribePWMSerial() {
   // Escribe por puerto Serial caracteres ascci (0-255)
   puertoSerial.write('R');
@@ -186,39 +205,34 @@ void escribePWMSerial() {
   puertoSerial.write(sliderV3.p);
   puertoSerial.write('W');
   puertoSerial.write(sliderV4.p);
+  //puertoSerial.clear();
 }
 
-float tiempoRefrescoDato = 200;//mS
-int FPS = 24;//tiempoFPS=1/fps;
-int bucles = (int)Math.ceil(tiempoRefrescoDato/1000*FPS);//round up/ redondeo hacia arriba
-void rxtxSerial(){
-  //Se envian y reciben los datos a cierta velocidad
-  int contadorBucles = 0;//Se inicia el contador en 0
-  while(contadorBucles<bucles){
-    escribePWMSerial();
-    leerDatosSerial();
-    contadorBucles++;
-  }
-  contadorBucles = 0;
-}
-
-void leerDatosSerial() {
-  String get = null;
-  int lf = 10;//caracter en ascii breakline o salto de linea
-  //Recibir datos por puerto serial de una variable  
-  while (puertoSerial.available() > 0) {
-    get = puertoSerial.readStringUntil(lf);
-    if (get != null) {
-      //print(get);  // Prints String
-      HashMap<String,String> valores = conversionGET(get);
-      R = parseInt(valores.get("r"));
-      G = parseInt(valores.get("g"));
-      B = parseInt(valores.get("b"));
-      sliderOnda.setColorValue(color(R,G,B));
-      sliderOnda.setColorBackground(color(R, G, B));
+// Catch the event from the serial interface.  This event seems to be
+// called even when there is no receive data (perhaps for the transmitted
+// data) so we make sure there is actually data to read before attempting
+// to do any processing.
+void serialEvent(Serial port) {
+  try {
+    String get = null;
+    //Recibir datos por puerto serial de una variable  
+    while (puertoSerial.available() > 0) {
+      get = puertoSerial.readStringUntil(LINE_FEED);
+      if (get != null) {
+        print(get);//Prints String
+        HashMap<String,String> valores = conversionGET(get);//Diccionario
+        R = parseInt(valores.get("r"));
+        G = parseInt(valores.get("g"));
+        B = parseInt(valores.get("b"));
+        sliderOnda.setColorValue(color(R,G,B));
+        sliderOnda.setColorBackground(color(R, G, B));
+      }
     }
-  }
-  puertoSerial.clear();
+    //puertoSerial.clear();
+  } catch (Exception e) {
+    println("Initialization exception");
+    //decide what to do here
+  }  
 }
 
 void keyPressed() {//Cuando se pulse una tecla
