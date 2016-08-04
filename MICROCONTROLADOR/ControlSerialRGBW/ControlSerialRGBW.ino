@@ -56,6 +56,10 @@ const int Rg = 65;  // Responsividad relativa verde
 const int Rb = 70;  // Responsividad relativa azul
 /****-----------------------****/
 
+/****Numero de Muestras del Promediador****/
+const int nMuestras = 200;
+/****-----------------------****/
+
 /*
  ***********************************************************************
  *              SETUP CONFIGURACIÓN INICIAL
@@ -97,12 +101,19 @@ void configurarPinesSensor(){
  ***********************************************************************
  */
 void loop() {
-  leeSerialRGBW2PC();
+  leeSerialRGBW2PC(4,10);//# Canales, # veces que se repite
   serialSensor();
-
 }
 
-void leeSerialRGBW2PC() {
+void leeSerialRGBW2PC(int canales, int veces){
+  for (int i=0; i<veces; i++){
+    for (int j=0; j<canales; j++){
+      leerBandaRGBW();
+    }
+  }
+}
+
+void leerBandaRGBW() {
   switch(leerPuerto()){
    case 'R':
     analogWrite(pinR, leerPuerto());
@@ -122,14 +133,6 @@ void leeSerialRGBW2PC() {
 int leerPuerto() {
   while (Serial.available()<=0) {}
   return Serial.read();
-}
-
-const int nMuestras = 200;
-void serialSensor() {
-  for (int i=0; i<nMuestras; i++){
-    leerDatosSensor(i);
-  }
-  enviarDatosSensor();
 }
 
 struct SensorColor {
@@ -152,6 +155,13 @@ struct SensorColor {
 
 struct SensorColor datosSensor;
 
+void serialSensor() {
+  for (int i=0; i<nMuestras; i++){
+    leerDatosSensor(i);
+  }
+  enviarDatosSensor();
+}
+
 void enviarDatosSensor() {
   struct SensorColor sensor = datosSensor;
   
@@ -166,27 +176,29 @@ void enviarDatosSensor() {
 }
 
 void leerDatosSensor(int i) {
+  int timeout = 1000000;
+  
   digitalWrite(S2, HIGH);// Se configura para tomar lectura sin filtro
   digitalWrite(S3, LOW);
-  int cPulse = pulseIn(outPin, LOW);// realiza la lectura
+  int cPulse = pulseIn(outPin, LOW, timeout);// realiza la lectura
   int Ac = cPulse * Rc;// ajusta la lectura con el valor de responsividad relativa clara
   
   digitalWrite(S2, LOW);// Se configura para tomar lectura filtro rojo
   digitalWrite(S3, LOW);
-  int rPulse = pulseIn(outPin, LOW);// realiza la lectura
+  int rPulse = pulseIn(outPin, LOW, timeout);// realiza la lectura
   int Ar = rPulse * Rr;// ajusta la lectura con el valor de responsividad relativa roja
   int Cr = Ar - Ac; // aplica correccion para su lectura clara
   
   digitalWrite(S2, HIGH);// Se configura para tomar lectura filtro verde
   digitalWrite(S3, HIGH);
-  int gPulse = pulseIn(outPin, LOW);// realiza lectura
+  int gPulse = pulseIn(outPin, LOW, timeout);// realiza lectura
 
   int Ag = gPulse * Rg;// ajusta la lectura con el valor de responsividad relativa verde  
   int Cg = Ag - Ac;// aplica correccion para su lectura clara
  
   digitalWrite(S2, LOW);// Se configura para tomar lectura filtro azul
   digitalWrite(S3, HIGH);
-  int bPulse = pulseIn(outPin, LOW);// realiza lectura
+  int bPulse = pulseIn(outPin, LOW, timeout);// realiza lectura
   int Ab = bPulse * Rb;// ajusta la lectura con el valor de responsividad relativa azul
   int Cb = Ab - Ac;                      // aplica correccion para su lectura clara
   
@@ -229,7 +241,7 @@ void leerDatosSensor(int i) {
     b = 255;
     g = 128 * Cb / Cg;
     r = 32 * Cb / Cr;
-  }  
+  }
   
   
   datosSensor.r[i] = r;
