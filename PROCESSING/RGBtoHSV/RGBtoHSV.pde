@@ -10,9 +10,15 @@ void draw(){
 
 /************FUNCIONES ADICIONALES******************/
 void RGBtoHSV() {
-  float R = 255;
-  float G = 255;
-  float B = 254;
+  float R = 24;
+  float G = 98;
+  float B = 118;
+  
+  R = R-0.02; //Se restan pequeñas fracciones para no tener el caso RGB 255 en cada canal
+  G = G-0.015;//esto permite que las ecuaciones Matiz y saturacion se cumplan 
+  B = B-0.005;
+  
+  float saturacion = 0.0;
   float matiz = 0.0;
   float Rh, Gh, Bh;
   Rh = R/255;
@@ -22,9 +28,18 @@ void RGBtoHSV() {
   float[] valoresRGB = { Rh, Gh, Bh};  // arreglo de datos con punto flotante
   float colorMax = max(valoresRGB); // Obtenemos el valor maximo del arreglo
   float colorMin = min(valoresRGB); // Obtenemos el valor maximo del arreglo
-  R = R-0.2;
-  G = G-0.15;
-  B = B-0.05;
+
+  
+  float luminancia = (colorMax+colorMin)/2; // 1=100%
+//Se decide la ecuacion para el ajuste para la saturacion   
+    if(luminancia < 0.5){
+      saturacion = (colorMax - colorMin)/(colorMax + colorMin);
+    }
+    if(luminancia > 0.5){
+      saturacion = (colorMax - colorMin)/(2.0 - colorMax + colorMin);
+    }
+
+//Se decide la ecuacion para el ajuste de la matiz    
     if(R>G && R>B){
       println("R es Mayor");
       matiz = (Gh-Bh)/(colorMax-colorMin);
@@ -41,7 +56,8 @@ void RGBtoHSV() {
       
     }
   float anguloMatiz = matiz * 60 ; // Convierte a grados
-  println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
+  //println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
+  println(luminancia,saturacion,anguloMatiz); 
   
   float pi=3.141592654;
   float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
