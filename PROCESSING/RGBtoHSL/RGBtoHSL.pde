@@ -5,11 +5,12 @@ void setup(){
 void draw(){
   background(0);
   stroke(255);
-  RGBtoHSV(); 
+  RGBtoHSL();
+
 }
 
 /************FUNCIONES ADICIONALES******************/
-void RGBtoHSV() {
+void RGBtoHSL() {
   float R = 24;
   float G = 98;
   float B = 118;
@@ -28,10 +29,10 @@ void RGBtoHSV() {
   float[] valoresRGB = { Rh, Gh, Bh};  // arreglo de datos con punto flotante
   float colorMax = max(valoresRGB); // Obtenemos el valor maximo del arreglo
   float colorMin = min(valoresRGB); // Obtenemos el valor maximo del arreglo
-
   
   float luminancia = (colorMax+colorMin)/2; // 1=100%
-//Se decide la ecuacion para el ajuste para la saturacion   
+  
+/************** Se decide la ecuacion para el ajuste de Saturacion **************/   
     if(luminancia < 0.5){
       saturacion = (colorMax - colorMin)/(colorMax + colorMin);
     }
@@ -39,7 +40,7 @@ void RGBtoHSV() {
       saturacion = (colorMax - colorMin)/(2.0 - colorMax + colorMin);
     }
 
-//Se decide la ecuacion para el ajuste de la matiz    
+/************** Se decide la ecuacion para el ajuste de la matiz **************/    
     if(R>G && R>B){
       println("R es Mayor");
       matiz = (Gh-Bh)/(colorMax-colorMin);
@@ -53,15 +54,38 @@ void RGBtoHSV() {
     if(B>R && B>G){
       println("B es Mayor");
       matiz = 4.0 + (Rh-Gh)/(colorMax-colorMin);
-      
     }
+/************** Se decide la ecuacion para el ajuste de posicion XYZ **************/     
+    if(Rh > 0.04045){
+      Rh = pow(((Rh + 0.055) / 1.055 ), 2.4); //float b = pow( 3, 5);  // Sets 'b' to 3*3*3*3*3 = 243
+    }else{                   
+      Rh = Rh / 12.92;
+    }
+    if(Gh > 0.04045){
+      Gh = pow(((Gh + 0.055) / 1.055 ),2.4);
+    }else{
+      Gh = Gh / 12.92;
+    }
+    if(Bh > 0.04045){
+      Bh = pow(((Bh + 0.055 ) / 1.055 ),2.4);
+    }else{
+      Bh = Bh / 12.92;
+    }
+  Rh = Rh * 100;
+  Gh = Gh * 100;
+  Bh = Bh * 100;
+  float X,Y,Z;
+  X = Rh * 0.4124 + Gh * 0.3576 + Bh * 0.1805;
+  Y = Rh * 0.2126 + Gh * 0.7152 + Bh * 0.0722;
+  Z = Rh * 0.0193 + Gh * 0.1192 + Bh * 0.9505;
+
   float anguloMatiz = matiz * 60 ; // Convierte a grados
   //println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
-  println(luminancia,saturacion,anguloMatiz); 
   
   float pi=3.141592654;
   float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
   trazoAngular(100, 100, anguloRadian, 70);  //posicion x, posicion y, anguloRadian en radianes, magnitud
+  println(luminancia,saturacion,anguloMatiz,X,Y,Z); 
 }
 
 void trazoAngular(int x, int y, float anguloRadian, float length){
