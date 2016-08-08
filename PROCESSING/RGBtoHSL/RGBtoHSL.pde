@@ -32,6 +32,12 @@ void RGBtoHSL() {
   
   float luminancia = (colorMax+colorMin)/2; // 1=100%
   
+/**************  RGB-CMY **************/
+  float C,M,A;
+  C = 1 - Rh; //Cian
+  M = 1 - Gh;  //Magenta
+  A = 1 - Bh;  //Amarillo
+  
 /************** Se decide la ecuacion para el ajuste de Saturacion **************/   
     if(luminancia < 0.5){
       saturacion = (colorMax - colorMin)/(colorMax + colorMin);
@@ -78,14 +84,15 @@ void RGBtoHSL() {
   X = Rh * 0.4124 + Gh * 0.3576 + Bh * 0.1805;
   Y = Rh * 0.2126 + Gh * 0.7152 + Bh * 0.0722;
   Z = Rh * 0.0193 + Gh * 0.1192 + Bh * 0.9505;
-
+  
+   /*Me gustaria fragmentar el cod en pequeños arreglos*/
   float anguloMatiz = matiz * 60 ; // Convierte a grados
   //println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
   
   float pi=3.141592654;
   float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
   trazoAngular(100, 100, anguloRadian, 70);  //posicion x, posicion y, anguloRadian en radianes, magnitud
-  println(luminancia,saturacion,anguloMatiz,X,Y,Z); 
+  println(luminancia,saturacion,anguloMatiz,X,Y,Z,C,M,A); 
 }
 
 void trazoAngular(int x, int y, float anguloRadian, float length){
