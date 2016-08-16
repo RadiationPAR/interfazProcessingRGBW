@@ -92,7 +92,12 @@ void RGBtoHSL() {
   float pi=3.141592654;
   float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
   trazoAngular(100, 100, anguloRadian, 70);  //posicion x, posicion y, anguloRadian en radianes, magnitud
-  println(luminancia,saturacion,anguloMatiz,X,Y,Z,C,M,A); 
+  println("CMY");
+  println(C,M,A);
+  println("HSL");
+  println(anguloMatiz,saturacion,luminancia);
+  println("XYZ");
+  println(X,Y,Z); 
 }
 
 void trazoAngular(int x, int y, float anguloRadian, float length){

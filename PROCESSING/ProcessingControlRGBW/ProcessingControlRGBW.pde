@@ -21,6 +21,12 @@ int R = 0; //Tono rojo
 int G = 0; //Tono verde
 int B = 0; //Tono azul
 int W = 0; //Brillo
+float C,M,A;
+float saturacion = 0.0;
+float matiz = 0.0;
+float anguloMatiz= 0.0;
+float luminancia = 0.0;
+float X,Y,Z;
 
 /* Tipo de datos para almacenar imágenes .gif, .jpg, .tga, .png */
 PImage img, img2, img3;
@@ -66,9 +72,9 @@ void draw() {
   dibujarImagenes();
   renderizarSliders();  
   graficarVisualizadorOnda();
-  refrezcaTextos();
   rxtxSerial();
   RGBtoConvert();
+  refrezcaTextos();
 }
 
 
@@ -159,28 +165,30 @@ void refrezcaTextos() {
   textSize(16);//Tamaño
   fill(255);//Color del texto
   text("LECTURA DE DATOS", 490, 480);
-  text("Control rojo   =", 490, 500);
-  text(sliderV1.texto, 620, 500);
-  text("Control verde =", 490, 520);
-  text(sliderV2.texto, 620, 520);
-  text("Control azul   =", 490, 540);
-  text(sliderV3.texto, 620, 540);
-  text("Control brillo =", 490, 560);
-  text(sliderV4.texto, 620, 560);
+  text("Control rojo   =" + sliderV1.texto, 490, 500);
+  text("Control verde =" + sliderV2.texto, 490, 520);
+  text("Control azul   =" + sliderV3.texto, 490, 540);
+  text("Control brillo =" + sliderV4.texto, 490, 560);
   text("SENSADO", 490, 600);
-  text("R =", 490, 620);
-  text(R, 540, 620);
-  text("G =", 490, 640);
-  text(G, 540, 640);
-  text("B =", 490, 660);
-  text(B, 540, 660);
+  text("R =" + R, 490, 620);
+  text("G =" + G, 490, 640);
+  text("B =" + B, 490, 660);
+  text("C =" + C, 620, 620);
+  text("M =" + M, 620, 640);
+  text("Y =" + A, 620, 660);
+  text("Matiz =" + anguloMatiz,800,620);
+  text("Saturacion =" + saturacion,800,640);
+  text("Luminancia =" + luminancia,800,660);
+  text("Posicion X =" + X,1040,620);
+  text("Posicion Y =" + Y,1040,640);
+  text("Posicion Z =" + Z,1040,660);
   textSize(25);//Tamaño
   text("COMBINATORIAS RGBW", 100, 70); 
   text("ESPECTRO VISIBLE",800,90);
   textSize(16);
-  String creditos = "Este obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional";
+  String creditos = "Este obra está bajo una licencia MIT Copyright (c) 2016 RadiationPAR";
   fill(255);
-  text(creditos, 820, 520, 400, 400);
+  text(creditos, 920, 520, 300, 400);
 }
 
 float tiempoRefrescoDato = 100;//mS
@@ -268,10 +276,6 @@ void RGBtoConvert() {
   float Gp = (float)G;
   float Bp = (float)B;
   
-  float saturacion = 0.0;
-  float matiz = 0.0;
-  float luminancia = 0.0;
-  
   float Rnorm, Gnorm, Bnorm;
   Rnorm = Rp/255;
   Gnorm = Gp/255;
@@ -285,7 +289,6 @@ void RGBtoConvert() {
   luminancia = (delta)/2; // 1=100%
   
 /**************  RGB-CMY **************/
-  float C,M,A;
   C = 1 - Rnorm; //Cian
   M = 1 - Gnorm;  //Magenta
   A = 1 - Bnorm;  //Amarillo
@@ -314,7 +317,7 @@ void RGBtoConvert() {
       //calculado=true;//no es necesario
     }
     
-    float anguloMatiz = matiz * 60 ; // Convierte a grados
+    anguloMatiz = matiz * 60 ; // Convierte a grados
     if(matiz<0) {
       anguloMatiz += 360;//Se proyecta a un ángulo entre 0 y 360°
     }
@@ -340,7 +343,6 @@ void RGBtoConvert() {
   Gnorm = Gnorm * 100;
   Bnorm = Bnorm * 100;
   
-  float X,Y,Z;
   X = Rnorm * 0.4124 + Gnorm * 0.3576 + Bnorm * 0.1805;
   Y = Rnorm * 0.2126 + Gnorm * 0.7152 + Bnorm * 0.0722;
   Z = Rnorm * 0.0193 + Gnorm * 0.1192 + Bnorm * 0.9505;
@@ -353,8 +355,8 @@ void RGBtoConvert() {
   
   println("RGB");
   println(Rp,Gp,Bp);
-  //println("CMY");
-  //println(C,M,A);
+ // println("CMY");
+ // println(C,M,A);
   println("HSL");
   println(anguloMatiz,saturacion,luminancia);
   //println("XYZ");
