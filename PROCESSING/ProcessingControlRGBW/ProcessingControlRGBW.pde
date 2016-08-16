@@ -58,8 +58,8 @@ void setup() {
   sliderOnda = interfaz.addSlider2D("onda")
     .setPosition(600, 240)//x,y
     .setSize(200, 200)//ancho,largo
-    .setMinMax(0, 0, 100, 100) //Define valores minimos y maximos de amplitud y frecuencia
-    .setValue(40, 50); // Asigna unos valores iniciales para amplitud y frecuencia
+    .setMinMax(0, 0, 500, 100) //Define valores minimos y maximos de amplitud y frecuencia
+    .setValue(150, 50); // Asigna unos valores iniciales para amplitud y frecuencia
   //.disableCrosshair();
   smooth();//Dibuja todas las geometrias en el lienzo de la interfaz grafica
   //frameRate(24); //(fps) Veces por segundo, tasa de refresco de la pantalla/lienzo
@@ -150,7 +150,8 @@ void graficarVisualizadorOnda() {
   rect(0, -100, 500, 200);
   strokeWeight(1);//Ancho del trazo (líneas en los objetos)
   line(0, 0, 200, 0);
-  stroke(225);//Color del trazo
+  stroke(color(R,G,B));//Color del trazo RGB
+  strokeWeight(2);
 
   for (int i=1; i<500; i++) {//Define tamaño max de la onda comprendida entre -PI,PI
     float y0 = cos(map(i-1, 0, sliderOnda.getArrayValue()[0], -PI, PI)) * sliderOnda.getArrayValue()[1]; 
@@ -350,7 +351,8 @@ void RGBtoConvert() {
   //println(R,G,B,Rnorm,Gnorm,Bnorm,colorMax,colorMin, matiz, anguloMatiz);  
   
   float anguloRadian=PI*anguloMatiz/180; // convierte angulos a radianes
-  trazoAngular(250, 557, anguloRadian, 100);  //posicion x, posicion y, anguloRadian en radianes, magnitud
+  stroke(255); //Pinta de blanco el siguiente trazo
+  trazoAngular(250, 557, anguloRadian, 110);  //posicion x, posicion y, anguloRadian en radianes, magnitud
   
   
   println("RGB");
