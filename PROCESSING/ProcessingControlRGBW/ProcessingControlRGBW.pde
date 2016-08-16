@@ -174,12 +174,12 @@ void refrezcaTextos() {
   text("R =" + R, 490, 620);
   text("G =" + G, 490, 640);
   text("B =" + B, 490, 660);
-  text("C =" + C, 620, 620);
-  text("M =" + M, 620, 640);
-  text("Y =" + A, 620, 660);
-  text("Matiz =" + anguloMatiz,800,620);
-  text("Saturacion =" + saturacion,800,640);
-  text("Luminancia =" + luminancia,800,660);
+  text("C =" + C + " %", 620, 620);
+  text("M =" + M + " %", 620, 640);
+  text("Y =" + A + " %", 620, 660);
+  text("Matiz =" + anguloMatiz + " °",800,620);
+  text("Saturacion =" + saturacion + " %",800,640);
+  text("Luminancia =" + luminancia + " %",800,660);
   text("Posicion X =" + X,1040,620);
   text("Posicion Y =" + Y,1040,640);
   text("Posicion Z =" + Z,1040,660);
@@ -287,20 +287,20 @@ void RGBtoConvert() {
   float colorMin = min(valoresRGB); // Obtenemos el valor maximo del arreglo
   
   float delta = colorMax+colorMin;
-  luminancia = (delta)/2; // 1=100%
+  luminancia = (delta/2)*100; // 1=100%
   
 /**************  RGB-CMY **************/
-  C = 1 - Rnorm; //Cian
-  M = 1 - Gnorm;  //Magenta
-  A = 1 - Bnorm;  //Amarillo
+  C = (1 - Rnorm)*100; //Cian
+  M = (1 - Gnorm)*100;  //Magenta
+  A = (1 - Bnorm)*100;  //Amarillo
   
 /************** Se decide la ecuacion para el ajuste de Saturacion **************/   
 
 
     if(luminancia < 0.5){
-     saturacion = delta/(colorMax + colorMin);
+     saturacion = (delta/(colorMax + colorMin))*100;
     } else {
-     saturacion = delta/(2.0 - colorMax + colorMin);
+     saturacion = (delta/(2.0 - colorMax + colorMin))*100;
     }
 
 /************** Se decide la ecuacion para el ajuste de la matiz **************/
