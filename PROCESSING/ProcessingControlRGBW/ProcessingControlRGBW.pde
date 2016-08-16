@@ -17,10 +17,10 @@ sliderV sliderV1, sliderV2, sliderV3, sliderV4;
 /*Definicion de variables para escribir datos PWM al TIVA*/
 Serial puertoSerial;
 int LINE_FEED = 10;// <LF> constant
-int R; //Tono rojo
-int G; //Tono verde
-int B; //Tono azul
-int W; //Brillo
+int R = 0; //Tono rojo
+int G = 0; //Tono verde
+int B = 0; //Tono azul
+int W = 0; //Brillo
 
 /* Tipo de datos para almacenar imágenes .gif, .jpg, .tga, .png */
 PImage img, img2, img3;
@@ -68,7 +68,7 @@ void draw() {
   graficarVisualizadorOnda();
   refrezcaTextos();
   rxtxSerial();
-  RGBtoHSV();
+  RGBtoConvert();
 }
 
 
@@ -200,7 +200,7 @@ void rxtxSerial(){
 void escribePWMSerial() {
   // Escribe por puerto Serial caracteres ascci (0-255)
   puertoSerial.write('R');
-  puertoSerial.write((sliderV1.p)*70/100); //Se acondiciona para operacion al 70%
+  puertoSerial.write((sliderV1.p)*45/100); //Se acondiciona para operacion al 55%
   puertoSerial.write('G');
   puertoSerial.write(sliderV2.p);
   puertoSerial.write('B');
@@ -211,7 +211,7 @@ void escribePWMSerial() {
 }
 
 // Catch the event from the serial interface.  This event seems to be
-// called even when there is no receive data (perhaps for the transmitted
+// called even when there is no receive data (peRnormaps for the transmitted
 // data) so we make sure there is actually data to read before attempting
 // to do any processing.
 void serialEvent(Serial port) {
@@ -263,46 +263,105 @@ HashMap<String,String> conversionGET(String get) {
 }
 
 /************FUNCIONES ADICIONALES******************/
-void RGBtoHSV() {
-  float R = 255;
-  float G = 100;
-  float B = 20;
-  float matiz = 0.0;
-  float Rh, Gh, Bh;
-  Rh = R/255;
-  Gh = G/255;
-  Bh = B/255;
+void RGBtoConvert() {
+  float Rp = (float)R;//R primado
+  float Gp = (float)G;
+  float Bp = (float)B;
   
-  float[] valoresRGB = { Rh, Gh, Bh};  // arreglo de datos con punto flotante
+  float saturacion = 0.0;
+  float matiz = 0.0;
+  float luminancia = 0.0;
+  
+  float Rnorm, Gnorm, Bnorm;
+  Rnorm = Rp/255;
+  Gnorm = Gp/255;
+  Bnorm = Bp/255;
+  
+  float[] valoresRGB = { Rnorm, Gnorm, Bnorm};  // arreglo de datos con punto flotante
   float colorMax = max(valoresRGB); // Obtenemos el valor maximo del arreglo
   float colorMin = min(valoresRGB); // Obtenemos el valor maximo del arreglo
-  R = R-0.2;
-  G = G-0.15;
-  B = B-0.05;
-    if(R>G && R>B){
-      //println("R es Mayor");
-      matiz = (Gh-Bh)/(colorMax-colorMin);
-      //println(matiz);
-     } 
-    if(G>R && G>B){
-      //println("G es mayor");
-      matiz = 2.0 + (Bh-Rh)/(colorMax-colorMin);
-     // println(matiz);
-    }
-    if(B>R && B>G){
-      //println("B es Mayor");
-      matiz = 4.0 + (Rh-Gh)/(colorMax-colorMin);
-      
-    }
-  float anguloMatiz = matiz * 60 ; // Convierte a grados
-  //println(R,G,B,Rh,Gh,Bh,colorMax,colorMin, matiz, anguloMatiz);  
   
-  float pi=3.141592654;
-  float anguloRadian=(pi/180)*anguloMatiz; // convierte angulos a radianes
-  trazoAngular(250, 557, anguloRadian, 110);  //posicion x, posicion y, anguloRadian en radianes, magnitud
+  float delta = colorMax+colorMin;
+  luminancia = (delta)/2; // 1=100%
+  
+/**************  RGB-CMY **************/
+  float C,M,A;
+  C = 1 - Rnorm; //Cian
+  M = 1 - Gnorm;  //Magenta
+  A = 1 - Bnorm;  //Amarillo
+  
+/************** Se decide la ecuacion para el ajuste de Saturacion **************/   
+
+
+    if(luminancia < 0.5){
+     saturacion = delta/(colorMax + colorMin);
+    } else {
+     saturacion = delta/(2.0 - colorMax + colorMin);
+    }
+
+/************** Se decide la ecuacion para el ajuste de la matiz **************/
+    boolean calculado = false;
+    if(R>=G && R>=B && calculado==false){//R es Mayor
+      matiz = (Gnorm-Bnorm)/delta;
+      calculado=true;
+    }
+    if(G>=R && G>=B && calculado==false){//G es Mayor
+      matiz = 2.0 + (Bnorm-Rnorm)/delta;
+      calculado=true;
+    }
+    if(B>=R && B>=G && calculado==false){//B es Mayor
+      matiz = 4.0 + (Rnorm-Gnorm)/delta;
+      //calculado=true;//no es necesario
+    }
+    
+    float anguloMatiz = matiz * 60 ; // Convierte a grados
+    if(matiz<0) {
+      anguloMatiz += 360;//Se proyecta a un ángulo entre 0 y 360°
+    }
+    
+    
+/************** Se decide la ecuacion para el ajuste de posicion XYZ **************/     
+  if(Rnorm > 0.04045){
+    Rnorm = pow(((Rnorm + 0.055) / 1.055 ), 2.4); //float b = pow( 3, 5);  // Sets 'b' to 3*3*3*3*3 = 243
+  }else{                   
+    Rnorm = Rnorm / 12.92;
+  }
+  if(Gnorm > 0.04045){
+    Gnorm = pow(((Gnorm + 0.055) / 1.055 ),2.4);
+  }else{
+    Gnorm = Gnorm / 12.92;
+  }
+  if(Bnorm > 0.04045){
+    Bnorm = pow(((Bnorm + 0.055 ) / 1.055 ),2.4);
+  }else{
+    Bnorm = Bnorm / 12.92;
+  }
+  Rnorm = Rnorm * 100;
+  Gnorm = Gnorm * 100;
+  Bnorm = Bnorm * 100;
+  
+  float X,Y,Z;
+  X = Rnorm * 0.4124 + Gnorm * 0.3576 + Bnorm * 0.1805;
+  Y = Rnorm * 0.2126 + Gnorm * 0.7152 + Bnorm * 0.0722;
+  Z = Rnorm * 0.0193 + Gnorm * 0.1192 + Bnorm * 0.9505;
+
+  //println(R,G,B,Rnorm,Gnorm,Bnorm,colorMax,colorMin, matiz, anguloMatiz);  
+  
+  float anguloRadian=PI*anguloMatiz/180; // convierte angulos a radianes
+  trazoAngular(250, 557, anguloRadian, 100);  //posicion x, posicion y, anguloRadian en radianes, magnitud
+  
+  
+  println("RGB");
+  println(Rp,Gp,Bp);
+  //println("CMY");
+  //println(C,M,A);
+  println("HSL");
+  println(anguloMatiz,saturacion,luminancia);
+  //println("XYZ");
+  //println(X,Y,Z);
 }
 
-void trazoAngular(int x, int y, float anguloRadian, float length){
+void trazoAngular(int x, int y, float anguloRadian, float magnitud){
   strokeWeight(4); // Añade un grosor al trazo
-  line(x, y, x+cos(anguloRadian)*length, y-sin(anguloRadian)*length); //line(x1, y1, x2, y2)
+  line(x, y, x+cos(anguloRadian)*magnitud, y-sin(anguloRadian)*magnitud); //line(x1, y1, x2, y2)
 }
