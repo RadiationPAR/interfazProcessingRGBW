@@ -11,10 +11,14 @@ Esta investigación plantea el desarrollo de un mecanismo de observación de la 
 
 ### Diseño esquematico y PCB
 ![PCB](https://lh3.googleusercontent.com/-dSbxB3geZaU/V4xXMiXsHOI/AAAAAAAABeY/f4gfbdVW0fwslsUZJuilaUOww0KNgf91QCL0B/w996-h560-no/tesis.png "PCB")
+![PCB2](http://i65.tinypic.com/b5ln5f.jpg "PCB2")
+
 
 
 ### Interfaz con Processing desde una Raspberry###
-![Processing](http://i67.tinypic.com/2yvtekj.png "Interfaz")
+![Processing](http://i65.tinypic.com/14d3hh1.png "Interfaz")
+![Processing](http://i66.tinypic.com/2dmf3hc.png "Interfaz")
+
 
 ### Desarrolladores ###
 * Diego Javier Mena @ingelectronicadj 
