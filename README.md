@@ -5,8 +5,8 @@ Esta investigación plantea el desarrollo de un mecanismo de observación de la 
 ### Materiales ###
 #### Microcontrolador Tiva C Series ####
 ![Energia LaunchPad](http://energia.nu/img/StellarPadLM4F120H5QR-V1.0.jpg "MSP-EXP430G2 LaunchPad") 
-#### Sensor TCS3220
-![Sensor TCS3220](http://i67.tinypic.com/jsdc9w.png "Sensor TCS3220")
+#### Sensor TCS3220 y Led RGB 100W
+![Sensor TCS3220](http://i68.tinypic.com/352npd3.png "Sensor TCS3220")
 ![Caracteristicas TCS3220](http://i63.tinypic.com/11c4m04.png "Caracteristicas TCS3220")
 
 ### Diseño esquematico y PCB
