@@ -19,6 +19,10 @@ Esta investigación plantea el desarrollo de un mecanismo de observación de la 
 ![Processing](http://i65.tinypic.com/14d3hh1.png "Interfaz")
 ![Processing](http://i66.tinypic.com/2dmf3hc.png "Interfaz")
 
+Para el desarrollo de la interfaz se implemento la libreria "ControlP5"  
+Para configurarle en una **raspberry** debe ejecutar los siguientes comandos:  
+1. cd interfazProcessingRGBW/PROCESSING/controlP5-2.2.5/controlP5/library  
+2. cp controlP5.jar /usr/local/lib/processing-3.2.3/core/library  
 
 ### Desarrolladores ###
 * Diego Javier Mena @ingelectronicadj 
