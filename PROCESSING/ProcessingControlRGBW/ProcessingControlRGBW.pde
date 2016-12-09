@@ -31,6 +31,14 @@ float X,Y,Z;
 /* Tipo de datos para almacenar imágenes .gif, .jpg, .tga, .png */
 PImage img, img2, img3;
 
+/* Definicion de variables de tiempo */
+int dia = day();    // Values from 1 - 31
+int mes = month();  // Values from 1 - 12
+int ano = year();   // 2003, 2004, 2005, etc.
+int seg = second();  // Values from 0 - 59
+int min = minute();  // Values from 0 - 59
+int hora = hour();    // Values from 0 - 23
+
 void setup() {
   size(1350, 800); //Define un tamaño para la interfaz
   img = loadImage("imagenes/tux.png");
@@ -161,6 +169,11 @@ void graficarVisualizadorOnda() {
   popMatrix();//https://processing.org/reference/popMatrix_.html
 }
 
+void formatoFechaHora() {
+  text("Fecha = "+String.valueOf(dia)+"/"+String.valueOf(mes)+"/"+String.valueOf(ano), 1040,700);
+  text("Hora = "+String.valueOf(hora)+":"+String.valueOf(min)+":"+String.valueOf(seg), 1040,720);
+  }
+  
 void refrezcaTextos() {
   //Visualizamos datos con un texto
   textSize(16);//Tamaño
@@ -190,6 +203,7 @@ void refrezcaTextos() {
   String creditos = "Este obra está bajo una licencia MIT Copyright (c) 2016 RadiationPAR";
   fill(255);
   text(creditos, 920, 520, 300, 400);
+  formatoFechaHora(); //se añade la funcion para renderizar pero no refrescan las variables
 }
 
 float tiempoRefrescoDato = 100;//mS
