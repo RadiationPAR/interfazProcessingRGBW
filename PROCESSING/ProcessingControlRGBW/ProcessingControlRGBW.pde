@@ -32,13 +32,19 @@ float X,Y,Z;
 PImage img, img2, img3;
 
 /* Definicion de variables de tiempo */
-int dia = day();    // Values from 1 - 31
-int mes = month();  // Values from 1 - 12
-int ano = year();   // 2003, 2004, 2005, etc.
-int seg = second();  // Values from 0 - 59
-int min = minute();  // Values from 0 - 59
-int hora = hour();    // Values from 0 - 23
+int y = year(); // Valores de 2015, 2014, etc
+int m = month(); // Valores de 1 a 12
+int d = day(); // Valores de 1 a 31
+int h = hour(); // Valores de 0 a 23
+int min = minute(); // Valores de 0 a 59
+int seg = second(); // Valores de 0 a 59
 
+
+/*
+ ***********************************************************************
+ *              SETUP CONFIGURACIÓN INICIAL
+ ***********************************************************************
+ */
 void setup() {
   size(1350, 800); //Define un tamaño para la interfaz
   img = loadImage("imagenes/tux.png");
@@ -73,6 +79,7 @@ void setup() {
   //frameRate(24); //(fps) Veces por segundo, tasa de refresco de la pantalla/lienzo
 }
 
+/****** INICIO FUNCIONES ADICIONALES SETUP******/
 /* Funcion para incrustar imagenes, dibujar sliders y visualizador de onda.*/
 /* Esta función es un bucle que dibuja en el lienzo, por eso se llama draw.*/
 /* Se ejecuta el numero de veces de la tasa de refresco frame rate*/
@@ -83,8 +90,8 @@ void draw() {
   rxtxSerial();
   RGBtoConvert();
   refrezcaTextos();
+  formatoFechaHora();
 }
-
 
 /* Clase Slider */
 class sliderV {
@@ -150,7 +157,6 @@ void renderizarSliders() {
 }
 
 void graficarVisualizadorOnda() {
-  //Grafica visualizador de onda
   pushMatrix();
   translate(820, 340);//Define posicion
   noStroke();//Deshabilita el trazo (contorno). Si se usa junto con noFill nada es dibujado en pantalla
@@ -160,7 +166,6 @@ void graficarVisualizadorOnda() {
   line(0, 0, 200, 0);
   stroke(color(R,G,B));//Color del trazo RGB
   strokeWeight(2);
-
   for (int i=1; i<500; i++) {//Define tamaño max de la onda comprendida entre -PI,PI
     float y0 = cos(map(i-1, 0, sliderOnda.getArrayValue()[0], -PI, PI)) * sliderOnda.getArrayValue()[1]; 
     float y1 = cos(map(i, 0, sliderOnda.getArrayValue()[0], -PI, PI)) * sliderOnda.getArrayValue()[1];
@@ -170,12 +175,11 @@ void graficarVisualizadorOnda() {
 }
 
 void formatoFechaHora() {
-  text("Fecha = "+String.valueOf(dia)+"/"+String.valueOf(mes)+"/"+String.valueOf(ano), 1040,700);
-  text("Hora = "+String.valueOf(hora)+":"+String.valueOf(min)+":"+String.valueOf(seg), 1040,720);
+  text("Fecha = " + d + "/" + m + "/" + y, 1040,700);
+  text("Hora = " + h + ":" + min + ":" + seg, 1040,720);
   }
   
 void refrezcaTextos() {
-  //Visualizamos datos con un texto
   textSize(16);//Tamaño
   fill(255);//Color del texto
   text("LECTURA DE DATOS", 490, 480);
@@ -203,7 +207,6 @@ void refrezcaTextos() {
   String creditos = "Este obra está bajo una licencia MIT Copyright (c) 2016 RadiationPAR";
   fill(255);
   text(creditos, 920, 520, 300, 400);
-  formatoFechaHora(); //se añade la funcion para renderizar pero no refrescan las variables
 }
 
 float tiempoRefrescoDato = 100;//mS
@@ -285,7 +288,7 @@ HashMap<String,String> conversionGET(String get) {
   return valores;
 }
 
-/************FUNCIONES ADICIONALES******************/
+/************FUNCIONES COLORIMETRIA******************/
 void RGBtoConvert() {
   float Rp = (float)R;//R primado
   float Gp = (float)G;
@@ -309,7 +312,6 @@ void RGBtoConvert() {
   A = (1 - Bnorm)*100;  //Amarillo
   
 /************** Se decide la ecuacion para el ajuste de Saturacion **************/   
-
 
     if(luminancia < 0.5){
      saturacion = (delta/(colorMax + colorMin))*100;
@@ -336,7 +338,6 @@ void RGBtoConvert() {
     if(matiz<0) {
       anguloMatiz += 360;//Se proyecta a un ángulo entre 0 y 360°
     }
-    
     
 /************** Se decide la ecuacion para el ajuste de posicion XYZ **************/     
   if(Rnorm > 0.04045){
