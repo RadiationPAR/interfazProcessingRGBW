@@ -10,14 +10,14 @@ Habitualmente los investigadores exponen en sus artículos que los vegetales uti
 
 Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Maestría y Doctorado no realizan un proceso fiable para llevar la trazabilidad de sus datos y los fabricantes se jactan diciendo que sus diseños son el verdadero espectro de radiación PAR.
 
-Es por ello que se emprendió el desarrollo de un prototipo que permita al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos relevantes, en una base de datos centralizada como lo son: composición RGB (0-255), composición CMY (0-255), Matiz (0-360), saturación (0.0-1.0), luminancia (0.0-1.0), posicion XYZ del color, longitud de onda y frecuencia.
+Es por ello que se emprendió el desarrollo de un prototipo que permita al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos relevantes, en una base de datos centralizada como lo son: composición RGB (0-255), composición CMY (0-255), Matiz (0-360), saturación (0.0-1.0), luminancia (0.0-1.0), posición XYZ del color, longitud de onda y frecuencia.
 
-La idea es iterar el metodo cientifico para establecer hojas de datos sobre la luz a irradiar en las plantas y usar la ingenieria social para acelerar el proceso teniendo en cuenta que los datos de todas las lamparas se centralizan.
+La idea es iterar el método científico para establecer hojas de datos sobre la luz a irradiar en las plantas y usar la ingeniería social para acelerar el proceso teniendo en cuenta que los datos de todas las lamparas se centralizan.
 
 # Materiales
 
 ## Microcontrolador Tiva C Series  
-Se decide implementar este microcontrolador por su fama en internet acerca de la adquisición, procesamiento y almacenamiento de datos; Ademas se sirve de una librería para compresión de algoritmos matemáticos, lo cual resulta bastante interesante.
+Se decide implementar este microcontrolador por su fama en internet acerca de la adquisición, procesamiento y almacenamiento de datos; ademas se sirve de una librería para compresión de algoritmos matemáticos, lo cual resulta bastante interesante.
 ![Energia LaunchPad](http://energia.nu/img/StellarPadLM4F120H5QR-V1.0.jpg "MSP-EXP430G2 LaunchPad") 
 
 ## Sensor TCS3220 y Led RGB 100W
