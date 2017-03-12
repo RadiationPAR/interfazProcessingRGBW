@@ -8,20 +8,24 @@ Esta investigación discrimina la información científica y tecnológica que se
 
 Habitualmente los investigadores exponen en sus artículos que los vegetales utilizan la luz desde los 400nm hasta los 700 nm para la fotosíntesis (conocida como radiación PAR, radiación fotosintéticamente activa -Photosynthetic Active Radiation), variando el efecto de la longitud de onda según las horas del día y los estadios de crecimiento de la planta se pueden conseguir cosechas de gran producción y alta calidad. 
 
-Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Doctorado no tienen un proceso para llevar la trazabilidad de sus datos y los fabricantes se jactan diciendo que sus diseños son el verdadero espectro de radiación PAR.
+Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Maestría y Doctorado no realizan un proceso fiable para llevar la trazabilidad de sus datos y los fabricantes se jactan diciendo que sus diseños son el verdadero espectro de radiación PAR.
 
-Es por ello que se emprendió el desarrollo de un prototipo que permita al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de facil manejo que almacena datos relevantes en una base de datos centralizada como lo son: composición RGB (0-255), composición CMY (0-255), Matiz (0-360), saturación (0.0-1.0), luminancia (0.0-1.0), posicion XYZ del color, longitud de onda y frecuencia.
+Es por ello que se emprendió el desarrollo de un prototipo que permita al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos relevantes, en una base de datos centralizada como lo son: composición RGB (0-255), composición CMY (0-255), Matiz (0-360), saturación (0.0-1.0), luminancia (0.0-1.0), posicion XYZ del color, longitud de onda y frecuencia.
 
 La idea es iterar el metodo cientifico para establecer hojas de datos sobre la luz a irradiar en las plantas y usar la ingenieria social para acelerar el proceso teniendo en cuenta que los datos de todas las lamparas se centralizan.
 
 # Materiales
 
-## Microcontrolador Tiva C Series 
+## Microcontrolador Tiva C Series  
+Se decide implementar este microcontrolador por su fama en internet acerca de la adquisición, procesamiento y almacenamiento de datos; Ademas se sirve de una librería para compresión de algoritmos matemáticos, lo cual resulta bastante interesante.
 ![Energia LaunchPad](http://energia.nu/img/StellarPadLM4F120H5QR-V1.0.jpg "MSP-EXP430G2 LaunchPad") 
 
 ## Sensor TCS3220 y Led RGB 100W
+Se opta por implementar el sensor TCS3220 por su resolución y economia; basicamente entrega una señal cuadrada con ancho de pulso variable de acuerdo a la presencia de una fuente de luz. Se caracteriza el comportamiento del sensor con la hoja de datos del fabricante y datos de pruebas en el laboratorio de ensayos eléctricos de la Universidad Nacional - LABE. 
 ![Sensor TCS3220](http://i68.tinypic.com/352npd3.png "Sensor TCS3220")
 ![Caracteristicas TCS3220](http://i63.tinypic.com/11c4m04.png "Caracteristicas TCS3220")
+
+El led de 100W permite dimensionar espacios de manera modular y cumple con los requisitos mínimos de lumenes para estimular la fotosintesis en plantas C3, C4 y CAM.
 
 # Diseño esquematico y PCB
 
