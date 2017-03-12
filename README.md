@@ -21,11 +21,12 @@ Se decide implementar este microcontrolador por su fama en internet acerca de la
 ![Energia LaunchPad](http://energia.nu/img/StellarPadLM4F120H5QR-V1.0.jpg "MSP-EXP430G2 LaunchPad") 
 
 ## Sensor TCS3220 y Led RGB 100W
-Se opta por implementar el sensor TCS3220 por su resolución y economia; basicamente entrega una señal cuadrada con ancho de pulso variable de acuerdo a la presencia de una fuente de luz. Se caracteriza el comportamiento del sensor con la hoja de datos del fabricante y datos de pruebas en el laboratorio de ensayos eléctricos de la Universidad Nacional - LABE. 
-![Sensor TCS3220](http://i68.tinypic.com/352npd3.png "Sensor TCS3220")
-![Caracteristicas TCS3220](http://i63.tinypic.com/11c4m04.png "Caracteristicas TCS3220")
+Se opta por implementar el sensor TCS3220 por su resolución y economía; basicamente entrega una señal cuadrada con ancho de pulso variable de acuerdo a la presencia de una fuente de luz. Se caracteriza el comportamiento del sensor con la hoja de datos del fabricante y datos de pruebas en el laboratorio de ensayos eléctricos de la Universidad Nacional - LABE.  
 
-El led de 100W permite dimensionar espacios de manera modular y cumple con los requisitos mínimos de lumenes para estimular la fotosintesis en plantas C3, C4 y CAM.
+![Sensor TCS3220](http://i68.tinypic.com/352npd3.png "Sensor TCS3220")
+![Caracteristicas TCS3220](http://i63.tinypic.com/11c4m04.png "Caracteristicas TCS3220")  
+
+El led de 100W permite dimensionar espacios de manera modular y cumple con los requisitos mínimos de lumenes para estimular la fotosíntesis en plantas C3, C4 y CAM.
 
 # Diseño esquematico y PCB
 
@@ -48,4 +49,4 @@ Para configurarle en una **raspberry** debe ejecutar los siguientes comandos:
 * Diego Javier Mena @ingelectronicadj 
 * Jeisson Eduardo Forero
 
-## Grupo de investigación LASER 
+## Grupo de investigación LASER y Grupo GNU/Linux UDistrital
