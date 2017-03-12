@@ -8,6 +8,8 @@ Esta investigación discrimina la información científica y tecnológica que se
 
 Habitualmente los investigadores exponen en sus artículos que los vegetales utilizan la luz desde los 400nm hasta los 700 nm para la fotosíntesis (conocida como radiación PAR, radiación fotosintéticamente activa -Photosynthetic Active Radiation), variando el efecto de la longitud de onda según las horas del día y los estadios de crecimiento de la planta se pueden conseguir cosechas de gran producción y alta calidad. 
 
+![RadiacionPAR](http://i64.tinypic.com/el8z2o.jpg "RadiacionPAR") 
+
 Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Maestría y Doctorado no realizan un proceso fiable para llevar la trazabilidad de sus datos y los fabricantes se jactan diciendo que sus diseños son el verdadero espectro de radiación PAR.
 
 Es por ello que se emprendió el desarrollo de un prototipo que permita al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos relevantes, en una base de datos centralizada como lo son: composición RGB (0-255), composición CMY (0-255), Matiz (0-360), saturación (0.0-1.0), luminancia (0.0-1.0), posición XYZ del color, longitud de onda y frecuencia.
