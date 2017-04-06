@@ -1,0 +1,41 @@
+Partlist exported from /home/asus/ganttproject/interfazProcessingRGBW/PCB_Tiva_Superficial/OBC_QB50.sch at 29/01/17 12:49
+
+Part   Value         Device           Package         Description                         DIGI-KEY#   MF     MPN            OC_FARNELL OC_NEWARK TERMINATION-TYPE          
+32.768 CRYSTALTC38H  CRYSTALTC38H     TC38H           Generic Crystal TC38H 32.768                                                                                         
+C1     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C2     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C3     1uF           C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C4     2.2uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C5     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C6     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C7     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C8     0.1uF         C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C9     10pF          C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C10    10pF          C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C11    1uF           C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+C12    1uF           C-USC0402        C0402           CAPACITOR, American symbol                                                                                           
+CON_A                ML14             ML14            HARTING                                                               unknown    unknown                             
+H1     CUBESATBUSH   CUBESATBUSH      CUBESATBUS                                                                                                                           
+H2     CUBESATBUSH   CUBESATBUSH      CUBESATBUS                                                                                                                           
+JTAG                 ML10             ML10            HARTING                                                               unknown    unknown                             
+L-SW                 SW_E61-SERIESCON CON             SW-E61-SERIES                                                                                                        
+Q1     16MHz         CRYSTALHC49UP    HC49UP          CRYSTAL                                                               unknown    unknown                             
+R1     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R2     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R6     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R7     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R8     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R9     10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R10    10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+R11    10K           R-US_MELF0102R   MINI_MELF-0102R RESISTOR, American symbol                                                                                            
+RBL-SW               SW_E61-SERIES    E61-SERIES      SW-E61-SERIES                                                                                                        
+RTC    BQ32008SOIC   BQ32008SOIC      SOP08                                                                                                                                
+SD1    CON-HRS-DM3AT CON-HRS-DM3AT    HRS-DM3AT       Hirose DM3AT microSD card connector HR1964CT-ND Hirose DM3AT-SF-PEJM5                      Right-angle SMT (standard)
+SD2    CON-HRS-DM3AT CON-HRS-DM3AT    HRS-DM3AT       Hirose DM3AT microSD card connector HR1964CT-ND Hirose DM3AT-SF-PEJM5                      Right-angle SMT (standard)
+SDP1   TPS22929      TPS22929         SOT23-6L        Description                                                                                                          
+SDP2   TPS22929      TPS22929         SOT23-6L        Description                                                                                                          
+SER1   22-27-2041-04 22-27-2041-04    6410-04         CONNECTOR                                                             unknown    unknown                             
+SER2   22-27-2041-04 22-27-2041-04    6410-04         CONNECTOR                                                             unknown    unknown                             
+TEMP_S LM75A         LM75A            SOP08                                                                                                                                
+UC     TM4C123FH6PM  TM4C123FH6PM     TM4C123FH6PM    TM4C123FH6PM                                                                                                         
+USB    USB-B-H       USB-B-H          USB-B-H         USB Connectors                                                                                                       
