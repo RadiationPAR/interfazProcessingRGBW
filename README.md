@@ -10,7 +10,7 @@ Investigadores de todo el planeta exponen en sus artículos que los vegetales ne
 
 A continuación se plantea el desarrollo de un mecanismo de observación para la respuesta fisiológica del dosel vegetal (en especial de la fotosíntesis), a partir del diseño de un sistema de iluminación artificial basado en un estudio previo de sistemas de iluminación y la actual migración a sistemas de iluminación con tecnología LED y OLED cuyo espectro de radiación esta dado en una banda especifica lo que proporciona un menor gasto de potencia, y facilita irradiar la planta con la parte del espectro especifico que ella necesita según su estadio: germinación, vegetación y floración. 
 
-![RadiacionPAR](http://i64.tinypic.com/el8z2o.jpg "RadiacionPAR") 
+![RadiacionPAR](https://github.com/RadiationPAR/interfazProcessingRGBW/blob/master/Diagramas/parDELMA.png?raw=true "RadiacionPAR") 
 
 Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Maestría y Doctorado no realizan un proceso fiable para llevar la trazabilidad de sus datos pero nos ilustran sobre el metodo científico iterado para obtener mejoras en el proceso de crecimiento y floración de diversas genéticas de plantas.  
 
@@ -47,7 +47,7 @@ Para configurarle en una **raspberry** deben ejecutarse los siguientes comandos:
 1. cd interfazProcessingRGBW/PROCESSING/controlP5-2.2.5/controlP5/library  
 2. cp controlP5.jar /usr/local/lib/processing-3.2.3/core/library  
 
-## Desarrolladores
-* Diego Javier Mena @ingelectronicadj 
+## Desarrollador
+* Diego Javier Mena - Email: ingelectronicadj@gmail.com
 
 ## Grupo de investigación LASER y Grupo GNU/Linux UDistrital
