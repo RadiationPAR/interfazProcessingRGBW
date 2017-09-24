@@ -1,6 +1,6 @@
 # PowerPAR-Led DELMA
 La formulación de un problema es a menudo más esencial que su solución, que puede ser meramente una materia de destreza experimental o matemática. "La especificación del problema a investigar implica que se ha comprendido plenamente el
-tema de la investigación, hasta el punto de poder determinar exactamente los interrogantes principales que plantea y a cuya resolución se debe orientar la investigación." Eintein
+tema de la investigación, hasta el punto de poder determinar exactamente los interrogantes principales que plantea y a cuya resolución se debe orientar la investigación." Einstein
 
 ## SISTEMA DE MEDICIÓN Y MONITOREO PARA EL ESTUDIO DEL EFECTO DE LA RADIACIÓN PAR EN LAS PLANTAS
 
