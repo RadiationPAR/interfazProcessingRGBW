@@ -1,4 +1,5 @@
 # PowerPAR-Led DELMA
+---
 La formulación de un problema es a menudo más esencial que su solución, que puede ser meramente una materia de destreza experimental o matemática. "La especificación del problema a investigar implica que se ha comprendido plenamente el
 tema de la investigación, hasta el punto de poder determinar exactamente los interrogantes principales que plantea y a cuya resolución se debe orientar la investigación." Einstein
 
@@ -14,8 +15,9 @@ A continuación se plantea el desarrollo de un mecanismo de observación para la
 
 Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminación y en algunos casos se diseñan enormes arreglos de leds con iluminación fija o invariable garantizando solo su uso para determinado tipo de plantas (C3, C4, CAM) - plantas presentes en la industria hortícola de mayor producción. Los investigadores de diversas tesis de Maestría y Doctorado no realizan un proceso fiable para llevar la trazabilidad de sus datos pero nos ilustran sobre el metodo científico iterado para obtener mejoras en el proceso de crecimiento y floración de diversas genéticas de plantas.  
 
-Esta investigación contempla el desarrollo de un prototipo que permite al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos de manera centralizada como lo son: composición RGB (0-255), composición CMY (0 - 255), Matiz (0 - 360), saturación (0.0 - 1.0), luminancia (0.0 - 1.0), posición XYZ del color, longitud de onda y frecuencia.
+Esta investigación contempla el desarrollo de un prototipo que permite al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos de manera centralizada como lo son: composición RGB (0-255), composición CMY (0 - 255), Matiz (0 - 360), saturación (0.0 - 1.0), luminancia (0.0 - 1.0), posición XYZ del color, longitud de onda y frecuencia.   
 
+---  
 # Materiales
 
 ## Microcontrolador Tiva C Series  
@@ -30,22 +32,25 @@ Se opta por implementar el sensor TCS3220 por su resolución y economía; basica
 
 El led de 100W permite dimensionar espacios de manera modular y cumple con los requisitos mínimos de lumenes para estimular la fotosíntesis en plantas C3, C4 y CAM.
 
-# Diseño esquematico y PCB
-
+---  
+# Diseño esquematico y PCB   
 ## Circuito de Potencia
 ![PCB](https://lh3.googleusercontent.com/-dSbxB3geZaU/V4xXMiXsHOI/AAAAAAAABeY/f4gfbdVW0fwslsUZJuilaUOww0KNgf91QCL0B/w996-h560-no/tesis.png "PCB")
 
 ## Circuito de Control
-![PCB2](http://i65.tinypic.com/b5ln5f.jpg "PCB2")
+![PCB2](http://i65.tinypic.com/b5ln5f.jpg "PCB2")  
+
+---  
 
 # Interfaz con Processing desde una Raspberry
 ![Processing](http://i65.tinypic.com/14d3hh1.png "Interfaz")
 ![Processing](http://i66.tinypic.com/2dmf3hc.png "Interfaz")
 
 Para el desarrollo de la interfaz se usa el software libre Processing - ampliamente usado para comunicación entre el usuario y la maquina por el protocolo RS-232 haciendo el llamado de la libreria "ControlP5".  
-Para configurarle en una **raspberry** deben ejecutarse los siguientes comandos:  
-1. cd interfazProcessingRGBW/PROCESSING/controlP5-2.2.5/controlP5/library  
-2. cp controlP5.jar /usr/local/lib/processing-3.2.3/core/library  
+Para configurarle en una **raspberry** deben ejecutarse los siguientes comandos: 
+<pre><code>cd interfazProcessingRGBW/PROCESSING/controlP5-2.2.5/controlP5/library</code></pre>
+<pre><code>cp controlP5.jar /usr/local/lib/processing-3.2.3/core/library</code></pre>  
+---
 
 ## Desarrollador
 * Diego Javier Mena - Email: ingelectronicadj@gmail.com
