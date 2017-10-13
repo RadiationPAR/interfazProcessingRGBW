@@ -99,7 +99,7 @@ void configurarPinesSensor(){
  */
 void loop() {
   leeSerialRGBW2PC(4,10);//# Canales, # veces que se repite
-  //serialSensor();
+  serialSensor();
 }
 
 void leeSerialRGBW2PC(int canales, int veces){

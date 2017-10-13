@@ -6,7 +6,6 @@
  
 import controlP5.*;//Graficos interactivos
 import processing.serial.*;//Lectura y escritura serial
-
 import java.util.Map;//para crear diccionarios
 
 /*Variables previstas para graficos interactivos*/
@@ -30,15 +29,6 @@ float X,Y,Z;
 
 /* Tipo de datos para almacenar imágenes .gif, .jpg, .tga, .png */
 PImage img, img2, img3;
-
-/* Definicion de variables de tiempo */
-int y = year(); // Valores de 2015, 2014, etc
-int m = month(); // Valores de 1 a 12
-int d = day(); // Valores de 1 a 31
-int h = hour(); // Valores de 0 a 23
-int min = minute(); // Valores de 0 a 59
-int seg = second(); // Valores de 0 a 59
-
 
 /*
  ***********************************************************************
@@ -90,7 +80,6 @@ void draw() {
   rxtxSerial();
   RGBtoConvert();
   refrezcaTextos();
-  formatoFechaHora();
 }
 
 /* Clase Slider */
@@ -173,11 +162,6 @@ void graficarVisualizadorOnda() {
   }
   popMatrix();//https://processing.org/reference/popMatrix_.html
 }
-
-void formatoFechaHora() {
-  text("Fecha = " + d + "/" + m + "/" + y, 1040,700);
-  text("Hora = " + h + ":" + min + ":" + seg, 1040,720);
-  }
   
 void refrezcaTextos() {
   textSize(16);//Tamaño
@@ -211,7 +195,7 @@ void refrezcaTextos() {
 
 float tiempoRefrescoDato = 100;//mS
 int FPS = 24;//tiempoFPS=1/fps;
-int bucles = (int)Math.ceil(tiempoRefrescoDato/1000*FPS);//round up/ redondeo hacia arriba
+int bucles = (int)Math.ceil(tiempoRefrescoDato/1000*FPS);//redondeo hacia arriba
 int contadorBucles = 1;//Se inicia el contador en 1 vez
 void rxtxSerial(){
   //Se envian y reciben los datos a cierta velocidad
