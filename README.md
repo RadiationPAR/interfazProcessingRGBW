@@ -17,9 +17,9 @@ Fabricantes de todo el mundo, ofrecen al mercado diversas lamparas de iluminaci�
 
 Esta investigación contempla el desarrollo de un prototipo que permite al usuario manejar: la composición de color (longitud de onda) a irradiar y su potencia a traves de una interfaz de fácil manejo que almacena datos de manera centralizada como lo son: composición RGB (0-255), composición CMY (0 - 255), Matiz (0 - 360), saturación (0.0 - 1.0), luminancia (0.0 - 1.0), posición XYZ del color, longitud de onda y frecuencia.   
 
----  
-# Materiales
 
+# Materiales
+---  
 ## Microcontrolador Tiva C Series  
 Se decide implementar este microcontrolador por su fama en internet acerca de la adquisición, procesamiento y almacenamiento de datos; ademas se sirve de una librería para la compresión de algoritmos matemáticos, lo cual resulta bastante interesante y acorde para las conversiones de los diferentes modelos matemáticos de los espacios del color.
 ![Energia LaunchPad](http://energia.nu/img/StellarPadLM4F120H5QR-V1.0.jpg "MSP-EXP430G2 LaunchPad") 
@@ -32,8 +32,9 @@ Se opta por implementar el sensor TCS3220 por su resolución y economía; basica
 
 El led de 100W permite dimensionar espacios de manera modular y cumple con los requisitos mínimos de lumenes para estimular la fotosíntesis en plantas C3, C4 y CAM.
 
+
+# Diseño esquematico y PCB 
 ---  
-# Diseño esquematico y PCB   
 ## Circuito de Potencia
 ![PCB](https://lh3.googleusercontent.com/-dSbxB3geZaU/V4xXMiXsHOI/AAAAAAAABeY/f4gfbdVW0fwslsUZJuilaUOww0KNgf91QCL0B/w996-h560-no/tesis.png "PCB")
 
@@ -42,7 +43,7 @@ El led de 100W permite dimensionar espacios de manera modular y cumple con los r
 
 ---  
 
-# Interfaz con Processing desde una Raspberry
+# Interfaz de Control con Processing desde una Raspberry
 ![Processing](http://i65.tinypic.com/14d3hh1.png "Interfaz")
 ![Processing](http://i66.tinypic.com/2dmf3hc.png "Interfaz")
 
@@ -52,7 +53,8 @@ Para configurarle en una **raspberry** deben ejecutarse los siguientes comandos:
 <pre><code>cp controlP5.jar /usr/local/lib/processing-3.2.3/core/library</code></pre>  
 ---
 
-## Desarrollador
+## Investigador principal
 * Diego Javier Mena - Email: ingelectronicadj@gmail.com
 
-## Grupo de investigación LASER y Grupo GNU/Linux UDistrital
+## Apoyo a la investigación
+![ApoyoInvest](http://delma.com.co/apoyoInvest.png "apoyo")
