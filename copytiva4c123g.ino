@@ -59,10 +59,10 @@ H  H  Verde
 void configurarPinesSensor(){
   pinMode(outPin, INPUT);
   pinMode(OEPin, OUTPUT);
-  digitalWrite(OEPin, LOW);// Habilita escalado de frecuencia
+  digitalWrite(OEPin, LOW);// Habilida el escalado de frecuencia
   pinMode(S0, OUTPUT);
   pinMode(S1, OUTPUT);
-  digitalWrite(S0, HIGH);// escalado de frecuencia al 20%
+  digitalWrite(S0, HIGH);// configura el escalado de frecuencia
   digitalWrite(S1, LOW);
   pinMode(S2, OUTPUT);
   pinMode(S3, OUTPUT);
@@ -71,20 +71,11 @@ void configurarPinesSensor(){
 
 /*
  ***********************************************************************
- *              FUNCIONES PARA BUCLE PRINCIPAL
+ *              LOOP BUCLE PRINCIPAL
  ***********************************************************************
  */
 void loop() {
-  Serial.println("--> Pulsos en us y espacio RGB");
-  delay(1000);
   serialSensor();
-}
-
-void serialSensor() {
-  for (int i=0; i<nMuestras; i++){
-    leerDatosSensor(i);
-  }
-  enviarDatosSensor();
 }
 
 struct SensorColor {
@@ -105,8 +96,28 @@ struct SensorColor {
   }
 };struct SensorColor datosSensor;
 
+void serialSensor() {
+  for (int i=0; i<nMuestras; i++){
+    leerDatosSensor(i);
+  }
+  enviarDatosSensor();
+}
+
+void enviarDatosSensor() {
+  struct SensorColor sensor = datosSensor;
+
+  Serial.print("cPulse="+String(sensor.promedio(sensor.cPulse))+"&");
+  Serial.print("rPulse="+String(sensor.promedio(sensor.rPulse))+"&");
+  Serial.print("gPulse= "+String(sensor.promedio(sensor.gPulse))+"&");
+  Serial.print("bPulse="+String(sensor.promedio(sensor.bPulse))+"&");
+  Serial.print("r="+String(sensor.promedio(sensor.r))+"&");
+  Serial.print("g="+String(sensor.promedio(sensor.g))+"&");
+  Serial.print("b="+String(sensor.promedio(sensor.b)));
+  Serial.println("");
+}
+
 void leerDatosSensor(int i) {
-  int timeout = 1000000; //1seg
+  int timeout = 1000000;
 
   digitalWrite(S2, HIGH);// Se configura para tomar lectura sin filtro
   digitalWrite(S3, LOW);
@@ -172,18 +183,4 @@ void leerDatosSensor(int i) {
   datosSensor.rPulse[i] = rPulse;
   datosSensor.gPulse[i] = gPulse;
   datosSensor.bPulse[i] = bPulse;
-}
-
-void enviarDatosSensor() {
-  struct SensorColor sensor = datosSensor;
-
-  Serial.print("cPulse="+String(sensor.promedio(sensor.cPulse))+"us & ");
-  Serial.print("rPulse="+String(sensor.promedio(sensor.rPulse))+"us & ");
-  Serial.print("gPulse= "+String(sensor.promedio(sensor.gPulse))+"us & ");
-  Serial.print("bPulse="+String(sensor.promedio(sensor.bPulse))+"us & ");
-  Serial.println("");
-  Serial.print("r="+String(sensor.promedio(sensor.r))+" & ");
-  Serial.print("g="+String(sensor.promedio(sensor.g))+" & ");
-  Serial.print("b="+String(sensor.promedio(sensor.b)));
-  Serial.println("");
 }
